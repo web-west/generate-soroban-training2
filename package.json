@@ -1,0 +1,36 @@
+{
+  "name": "generate-soroban-training2",
+  "version": "2.0.0",
+  "description": "Generate soroban for training 2 version",
+  "main": "lib/index.es6",
+  "scripts": {
+    "start": "npm run compile && node lib/index.js",
+    "test": "npm run compile",
+    "release": "standard-version",
+    "compile": "babel --presets es2015 -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-west/generate-soroban-training2.git"
+  },
+  "keywords": [
+    "soroban tests",
+    "soroban training",
+    "soroban examples",
+    "soroban generator"
+  ],
+  "author": "web-west",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/web-west/generate-soroban-training2/issues"
+  },
+  "homepage": "https://github.com/web-west/generate-soroban-training2#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "standard-version": "^6.0.1"
+  }
+}
