@@ -16,6 +16,9 @@ import SorobanGenerator from './SorobanGenerator';
 
 const s = new SorobanGenerator(config);
 
-s.generateSimpleExamples(); */
+s.generateSimpleExamples(); 
+// s.getArray()
+// s.getString()
+*/
 
 module.exports = SorobanGenerator;
