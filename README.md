@@ -46,7 +46,7 @@ console.log(examples);
 #### Пример
 
 ```javascript
-import SorobanGenerator from './SorobanGenerator';
+import SorobanGenerator from 'generate-soroban-training2';
 
 const config = {
     debug: true, // дебагинг

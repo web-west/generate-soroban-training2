@@ -2,7 +2,7 @@
   "name": "generate-soroban-training2",
   "version": "2.0.2",
   "description": "Generate soroban for training 2 version",
-  "main": "lib/index.es6",
+  "main": "lib/index.js",
   "scripts": {
     "start": "npm run compile && node lib/index.js",
     "test": "npm run compile",
