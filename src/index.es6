@@ -1,11 +1,11 @@
 import SorobanGenerator from './SorobanGenerator';
 
-/* const config = {
+const config = {
     debug: true,
-    digit: 1,
-    examples: 10,
-    actions_length: 99,
-    topic_number: 4,
+    digit: 4,
+    examples: 15,
+    actions_length: 15,
+    topic_number: 5,
     exceptions: [
         [[8, -4], [7, -4], [6, -4], [5, -4], [1, 4], [2, 4], [3, 4], [4, 4]],
         [[7, -3], [6, -3], [5, -3], [2, 3], [3, 3], [4, 3]],
@@ -17,8 +17,9 @@ import SorobanGenerator from './SorobanGenerator';
 const s = new SorobanGenerator(config);
 
 s.generateSimpleExamples(); 
-// s.getArray()
+s.getArray()
+
 // s.getString()
-*/
+// s.getTest()
 
 module.exports = SorobanGenerator;

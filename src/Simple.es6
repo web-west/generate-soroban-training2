@@ -4,23 +4,50 @@ class Simple {
     constructor (config) {
         this.actions_length = config.actions_length;
         this.topic_number = config.topic_number;
-        if (this.topic_number <= 4) {
-            this.intermediate_sum_limit = this.topic_number;
-        }
-        else {
-            this.intermediate_sum_limit = 9;
-        }
-            
+        this.digit = config.digit || 1;            
         this.exceptions = config.exceptions;
+        this.rangexy = (start, end) => Array.from({ length: (end + 1 - start) }, (v, k) => k + start);
+        this.allowNumbers = this.rangexy(0,this.topic_number);
     }
 
     /**
      * Method generates number
      */
     __generate_number () {
-        const rangexy = (start, end) => Array.from({ length: (end + 1 - start) }, (v, k) => k + start);
-        
-        return ArrayRandom(rangexy(-(this.topic_number),this.topic_number).filter(item => item !== 0));
+        let minNumber = Math.pow(10, this.digit - 1)
+        let maxNumber = this.__maxNumber()
+        let array = []
+
+        array = array.concat(this.rangexy(minNumber,maxNumber));
+        array = array.concat(this.rangexy(-maxNumber, -minNumber));
+
+        let newArrat = array.filter((item) => {
+            return this.__exceptionNumbersOfNumber(item);
+        })
+
+        return ArrayRandom(newArrat);
+    }
+
+    __exceptionNumbersOfNumber (number) {
+        let str = ''+(Math.abs(number));
+        let len = str.length;
+        let state = true;
+        for (let i = 0; i < len; i++) {
+            let num = parseInt(str[i])
+            if (this.allowNumbers.indexOf(num) === -1) {
+                state = false;
+                break;
+            }
+        }
+        return state;
+    }
+
+    __maxNumber () {
+        let num = 1;
+        for (let i = 1; i < this.digit; i++) {
+            num += Math.pow(10, this.digit - i);
+        }
+        return this.topic_number * num;
     }
 
 
@@ -54,6 +81,17 @@ class Simple {
      */
     __generate_number_with_given_intermediate_sum (previous_number) {
         let new_number;
+        let intermediate_sum_limit = this.__maxNumber();
+        let min_sum_limit = Math.pow(10, this.digit - 1)
+        let topic_numbers_sum_limit = false
+        if (this.digit === 1) {
+            if (this.topic_number <= 4 && this.digit === 1) {
+                intermediate_sum_limit = this.topic_number;
+            }
+            else {
+                intermediate_sum_limit = 9;
+            }
+        }
         while (true) {
             if (this.exceptions !== undefined) {
                 new_number = this.__generate_with_given_exception(previous_number);
@@ -63,8 +101,12 @@ class Simple {
             }
             
             let intermediate_sum = parseInt(previous_number) + parseInt(new_number);
+
+            if (this.topic_number <= 4) {
+                topic_numbers_sum_limit = !this.__exceptionNumbersOfNumber(intermediate_sum);
+            }
             
-            if (intermediate_sum >= 0 && intermediate_sum <= this.intermediate_sum_limit) {
+            if (intermediate_sum >= min_sum_limit && intermediate_sum <= intermediate_sum_limit && !topic_numbers_sum_limit) {
                 break;
             }
         }
@@ -85,7 +127,7 @@ class Simple {
             }
                 
             let sum = ArraySum(list_of_numbers);
-            if (sum > 0 && sum <= this.topic_number) {
+            if (sum > 0 && sum <= this.__maxNumber()) {
                 break;
             }
         }
