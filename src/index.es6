@@ -1,6 +1,6 @@
 import SorobanGenerator from './SorobanGenerator';
 
-const config = {
+/* const config = {
     debug: true,
     digit: 4,
     examples: 15,
@@ -20,6 +20,6 @@ s.generateSimpleExamples();
 s.getArray()
 
 // s.getString()
-// s.getTest()
+// s.getTest() */
 
 module.exports = SorobanGenerator;
