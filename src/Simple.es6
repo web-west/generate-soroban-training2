@@ -2,7 +2,7 @@ import { ArrayRandom, Range, ArraySum } from './helpers'
 
 class Simple {
     constructor (config) {
-        this.actions_length = config.actions_length;
+        this.actions_length = config.actions_length + 1;
         this.topic_number = config.topic_number;
         this.digit = config.digit || 1;            
         this.exceptions = config.exceptions;
@@ -57,19 +57,47 @@ class Simple {
      */
     __generate_with_given_exception (previous_number) {
         let repeat_flag = true;
-        let new_number;
+        let new_number = this.__generate_number();
+        let new_number_string = ''+(Math.abs(new_number));
+        let previous_number_string = ''+(Math.abs(previous_number));
+        let operator;
+        
+        // console.log(previous_number)
+        
         while (repeat_flag) {
-            new_number = this.__generate_number();
             repeat_flag = false;
 
-            for (let exception_block in this.exceptions) {
-                for (let key in this.exceptions[exception_block]) {
-                    if (previous_number === this.exceptions[exception_block][key][0] && new_number === this.exceptions[exception_block][key][1]) {
+            if (new_number > 0) {
+                operator = '+'
+            } else {
+                operator = '-'
+            }
+
+            for (let key in this.exceptions) {
+                let ex_operator,
+                    first_number = this.exceptions[key][0],
+                    third_number = this.exceptions[key][1];
+
+                if (third_number < 0) {
+                    ex_operator = '-';
+                } else {
+                    ex_operator = '+';
+                }
+
+                for(let i = 0; i < this.digit; i++) {
+                    let sub_previous_number = parseInt(previous_number_string[i]),
+                        sub_new_number = parseInt(new_number_string[i]);
+                    if (first_number === sub_previous_number && third_number === sub_new_number && ex_operator === operator) {
                         repeat_flag = true;
-                        continue;
+                        // console.log('ex:', first_number, ex_operator, third_number, '||', previous_number_string, operator, new_number_string)
+                        break;
+                        // continue;
                     }
                 }
             }
+
+            new_number = this.__generate_number();
+            new_number_string = ''+(Math.abs(new_number))
         }
         
         return new_number;
