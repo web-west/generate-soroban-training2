@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.6](https://github.com/web-west/generate-soroban-training2/compare/v2.2.6...v2.3.6) (2019-08-09)
+
+
+
 ### [2.2.6](https://github.com/web-west/generate-soroban-training2/compare/v2.2.5...v2.2.6) (2019-08-09)
 
 
