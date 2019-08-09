@@ -58,7 +58,9 @@ class Simple {
     __generate_with_given_exception (previous_number) {
         let repeat_flag = true;
         let previous_number_string = ''+(Math.abs(previous_number));
-        let operator;
+        let operator_first;
+        let operator_third;
+        let operator_third_revert;
         let new_number;
                 
         while (repeat_flag) {
@@ -66,36 +68,25 @@ class Simple {
             new_number = this.__generate_number();
             let new_number_string = ''+(Math.abs(new_number));
 
-            if (new_number > 0) {
-                operator = '+'
-            } else {
-                operator = '-'
-            }
-
-            for (let key in this.exceptions) {
-                let ex_operator,
-                    first_number = this.exceptions[key][0],
-                    third_number = this.exceptions[key][1];
-
-                if (third_number < 0) {
-                    ex_operator = '-';
+            if (previous_number === 0) break;
+            
+            operator_first = previous_number > 0 ? '' : '-';
+            operator_third = new_number > 0 ? '+' : '-';
+            operator_third_revert = new_number > 0 ? '-' : '+';
+            for(let i = 0; i < this.digit; i++) {
+                let action = operator_first + previous_number_string[i] + operator_third + new_number_string[i];
+                let action_revert = operator_first + previous_number_string[i] + operator_third_revert + new_number_string[i];
+                
+                if (this.exceptions.includes(action)) {
+                    repeat_flag = true;
+                } else if (this.exceptions.includes(action_revert)) {
+                    repeat_flag = true;
                 } else {
-                    ex_operator = '+';
+                    new_number = -new_number;
                 }
-
-                for(let i = 0; i < this.digit; i++) {
-                    let sub_previous_number = parseInt(previous_number_string[i]),
-                        sub_new_number = parseInt(new_number_string[i]);
-                    if (previous_number === 0 && first_number === sub_previous_number && third_number === sub_new_number && ex_operator === operator) {
-                        repeat_flag = true;
-                        // console.log('ex:', first_number, ex_operator, third_number, '||', previous_number_string, operator, new_number_string)
-                        break;
-                        // continue;
-                    }
-                }
+                if (repeat_flag) break;
+                // console.log(previous_number, new_number, action, action_revert);
             }
-
-            // console.log(previous_number, operator, new_number, repeat_flag)
         }
         
         return new_number;
@@ -105,7 +96,7 @@ class Simple {
      * Method checks intermediate sum of two numbers
      * @param previous_number 
      */
-    __generate_number_with_given_intermediate_sum (previous_number) {
+    __generate_number_with_given_intermediate_sum (sum, previous_number) {
         let new_number;
         let intermediate_sum_limit = this.__maxNumber();
         let min_sum_limit = Math.pow(10, this.digit - 1)
@@ -119,14 +110,14 @@ class Simple {
             }
         }
         while (true) {
-            if (this.exceptions !== undefined) {
+            if (this.exceptions || null) {
                 new_number = this.__generate_with_given_exception(previous_number);
             }
             else {
                 new_number = this.__generate_number();
             }
             
-            let intermediate_sum = parseInt(previous_number) + parseInt(new_number);
+            let intermediate_sum = parseInt(sum) + parseInt(new_number);
 
             if (this.topic_number <= 4) {
                 topic_numbers_sum_limit = !this.__exceptionNumbersOfNumber(intermediate_sum);
@@ -148,8 +139,13 @@ class Simple {
         while (true) {
             list_of_numbers = Array.from({ length: this.actions_length }, () => 0);
             for (let task_index in list_of_numbers) {
-                let new_number = this.__generate_number_with_given_intermediate_sum(ArraySum(list_of_numbers));
-                list_of_numbers[task_index] = new_number;
+                let previous_number = task_index > 0 ? list_of_numbers[task_index - 1] : 0;
+                let new_number = this.__generate_number_with_given_intermediate_sum(ArraySum(list_of_numbers), previous_number);
+                if (new_number !== 0) {
+                    list_of_numbers[task_index] = new_number;
+                } else {
+                    list_of_numbers[task_index] = previous_number;
+                }
             }
                 
             let sum = ArraySum(list_of_numbers);
