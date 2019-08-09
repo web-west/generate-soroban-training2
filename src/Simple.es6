@@ -57,15 +57,14 @@ class Simple {
      */
     __generate_with_given_exception (previous_number) {
         let repeat_flag = true;
-        let new_number = this.__generate_number();
-        let new_number_string = ''+(Math.abs(new_number));
         let previous_number_string = ''+(Math.abs(previous_number));
         let operator;
-        
-        // console.log(previous_number)
-        
+        let new_number;
+                
         while (repeat_flag) {
             repeat_flag = false;
+            new_number = this.__generate_number();
+            let new_number_string = ''+(Math.abs(new_number));
 
             if (new_number > 0) {
                 operator = '+'
@@ -87,7 +86,7 @@ class Simple {
                 for(let i = 0; i < this.digit; i++) {
                     let sub_previous_number = parseInt(previous_number_string[i]),
                         sub_new_number = parseInt(new_number_string[i]);
-                    if (first_number === sub_previous_number && third_number === sub_new_number && ex_operator === operator) {
+                    if (previous_number === 0 && first_number === sub_previous_number && third_number === sub_new_number && ex_operator === operator) {
                         repeat_flag = true;
                         // console.log('ex:', first_number, ex_operator, third_number, '||', previous_number_string, operator, new_number_string)
                         break;
@@ -96,8 +95,7 @@ class Simple {
                 }
             }
 
-            new_number = this.__generate_number();
-            new_number_string = ''+(Math.abs(new_number))
+            // console.log(previous_number, operator, new_number, repeat_flag)
         }
         
         return new_number;

@@ -2,10 +2,10 @@ import SorobanGenerator from './SorobanGenerator';
 
 /* const config = {
     debug: true,
-    digit: 3,
+    digit: 2,
     examples: 1,
     actions_length: 10,
-    topic_number: 8,
+    topic_number: 5,
     exceptions: [
         [1, 4],
         [2, 3], [2, 4],
